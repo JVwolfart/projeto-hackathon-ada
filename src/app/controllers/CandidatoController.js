@@ -7,9 +7,9 @@ const loginService = require("../services/LoginService");
 
 class CandidatoController {
     async cadastrar(req, res, next){
-        const {nome, cpf, email, senha, data_nascimento, sexo_biologico, etnia, identidade_genero, orientacao_sexual, pcd} = req.body;
+        const {nome, cpf, email, senha, data_nascimento, etnia, identidade_genero, orientacao_sexual, pcd} = req.body;
         try {
-            const novoCandidato = await cadastrarCandidatoService.execute(nome, cpf, email, senha, data_nascimento, sexo_biologico, etnia, identidade_genero, orientacao_sexual, pcd);
+            const novoCandidato = await cadastrarCandidatoService.execute(nome, cpf, email, senha, data_nascimento, etnia, identidade_genero, orientacao_sexual, pcd);
             res.status(201).send(novoCandidato)
             next();
         } catch (error) {
