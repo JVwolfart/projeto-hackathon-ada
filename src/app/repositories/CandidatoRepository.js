@@ -56,7 +56,8 @@ class CandidatoRepository {
         const candidatoContratado = await CandidatoModel.update({
             data_contratacao: data_contratacao,
             usuario_alterou: usuario.id,
-            nivel_acesso: nivel_acesso
+            nivel_acesso: nivel_acesso,
+            data_demissao: null
         }, {
             where: {
                 id: candidato.id
@@ -64,6 +65,10 @@ class CandidatoRepository {
         }
         )
         return candidatoContratado;
+    }
+    
+    async desligar(candidato, data_demissao, usuario, nivel_acesso){
+        
     }
 }
 

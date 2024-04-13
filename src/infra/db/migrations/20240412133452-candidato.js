@@ -64,12 +64,26 @@ module.exports = {
       usuario_alterou: {
           type: Sequelize.STRING,
           allowNull: true
+      },
+      created_at: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
+        allowNull: false
+      },
+      updated_at: {
+        type: Sequelize.DATE,
+        allowNull: true
+      },
+      deleted_at: {
+        type: Sequelize.DATE,
+        allowNull: true
       }
     }, {
       timestamps: true,
       createdAt: true,
       updatedAt: true,
-      freezeTableName: true
+      freezeTableName: true,
+      underscores: true
     })
   },
 

@@ -9,17 +9,17 @@ dotEnv.config({ path })
 const DB_DIALECT = process.env.DB_DIALECT
 const DB_STORAGE = process.env.DB_STORAGE
 
-/*module.exports = {
+module.exports = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
   host: process.env.DB_HOST,
-  port: 5432,
-  dialect: "postgres"
-}*/
+  port: 3306,
+  dialect: "mysql"
+}
 
-module.exports = {
+/*module.exports = {
   dialect: DB_DIALECT,
   storage: DB_STORAGE,
   logging: nodeEnv === "test" ? undefined : console.log,
-}
+}*/
