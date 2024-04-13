@@ -5,16 +5,13 @@ Sumário
   - [Introdução](#introdução)
     - [Case](#case)
   - [Equipe BE - 2 (Back End)](#equipe-be---2-back-end)
-    - [🏆 Equipe](#-equipe)
+    - [🏆 Integrantes](#-integrantes)
     - [💪 Desafio](#-desafio)
     - [📦 Entregáveis](#-entregáveis)
     - [🗂️ Planejamento e design](#️-planejamento-e-design)
     - [⚙ Funcionalidades](#-funcionalidades)
     - [🚀 Stack utilizada](#-stack-utilizada)
     - [🔧 Instalação](#-instalação)
-
-
-<div id='intro' /> 
 
 ## Introdução
 
@@ -30,8 +27,6 @@ O evento contou com a presença de várias empresas e dividiu-se em quatro trilh
 4. ⚙ Equipe de DevOps
 
 Cada trilha conteve grupos de até 10 participantes.
-
-<div id='case' /> 
 
 ### Case
 
@@ -70,11 +65,9 @@ Cada trilha conteve grupos de até 10 participantes.
 >
 > A Corp Solutions adota um modelo de trabalho flexível, que inclui opções de trabalho remoto e horários flexíveis.
 
-<div id='team' /> 
-
 ## Equipe BE - 2 (Back End)
 
-### 🏆 Equipe
+### 🏆 Integrantes
 
 <table align="center">
   <tr align="center">
@@ -129,13 +122,9 @@ Cada trilha conteve grupos de até 10 participantes.
   </tr>
 </table>
 
-<div id='challenge' /> 
-
 ### 💪 Desafio
 
 O desafio para os alunos é projetar e implementar uma API robusta e escalável para o sistema de RH da empresa. Eles devem considerar os requisitos de segurança, desempenho e escalabilidade, garantindo uma integração eficiente com a interface de usuário desenvolvida.
-
-<div id='deliverables' /> 
 
 ### 📦 Entregáveis
 
@@ -147,24 +136,16 @@ Apresentação final do projeto, demonstrando as funcionalidades implementadas n
 
 Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Empregabilidade/adahack-2024-backend/tree/main/Entregas/BE-2).
 
-<div id='planning' /> 
-
 ### 🗂️ Planejamento e design
 
 Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdnbDJQdmJOUERybmJpR2VQMjk3bUU5dTFJVVF0bVFUMmhFMXRzVjRHTHowTTBzYVZWNGZxckhKSlVROG1VeHwzNDU4NzY0NTg1NDEwOTkyMTMwfDI=?share_link_id=331407019813).
 
-<div id='Functionalities' /> 
-
 ### ⚙ Funcionalidades
-
-<div id='stack' /> 
 
 ### 🚀 Stack utilizada
 
 **Back-end:**
 `express`,`jsonwebtoken`, `multer`,`bcrypt`,`nodemon`,`cors`
-
-<div id='installation' /> 
 
 ### 🔧 Instalação
 
