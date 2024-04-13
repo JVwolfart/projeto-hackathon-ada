@@ -17,7 +17,7 @@ const requestLimiter = rateLimit({
 })
 
 
-routesCandidato.post("/candidato", requestLimiter, candidatoController.cadastrar);
+routesCandidato.post("/candidato", candidatoController.cadastrar);
 routesCandidato.get("/candidato", candidatoController.listar);
 routesCandidato.get("/candidato/pcd", candidatoController.listar_candidatos_pcd);
 routesCandidato.post("/login", requestLimiter, candidatoController.login)
