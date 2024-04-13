@@ -15,6 +15,15 @@ class CandidatoRepository {
         return candidatos;
     }
 
+    async listar_filtros(campos){
+        
+        const query = `SELECT * FROM Candidato WHERE ${campos.join(' AND ')}`
+        console.log(query)
+        const resultados = await sequelize.query(query)
+        
+        return resultados;
+    }
+
     async listar_candidatos_pcd(){
         const candidatos = await CandidatoModel.findAll({where: {pcd: true}});
         return candidatos;
