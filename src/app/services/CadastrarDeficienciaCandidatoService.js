@@ -4,6 +4,7 @@ const deficienciaCandidatoRepository = require("../repositories/DeficienciaCandi
 
 class CadastrarDeficienciaCandidatoService {
     async execute(id_candidato, tipo_deficiencia, descricao, cid){
+        const TIPOS_DEFICIENCIA = ["visual", "auditiva", "mental", "intelectual", "espectro autista", "física"];
         if(!id_candidato || !tipo_deficiencia){
             throw new AppError("ERRO! Necessário informar o id do candidato e o tipo de deficiência");
         }
@@ -15,6 +16,9 @@ class CadastrarDeficienciaCandidatoService {
             throw new AppError("ERRO! Candidato não informou ser PcD. Verifique o cadastro do candidato")
         }
         tipo_deficiencia = tipo_deficiencia.toLowerCase();
+        if(!TIPOS_DEFICIENCIA.includes(tipo_deficiencia)){
+            throw new AppError(`ERRO! Tipo de deficiência informado inválido (são válidos apenas ${TIPOS_DEFICIENCIA.join(", ")})`)
+        }
         const deficienciaCandidato = {id_candidato: id_candidato, tipo_deficiencia: tipo_deficiencia, descricao: descricao, cid: cid};
         const novaDeficienciaCandidato = await deficienciaCandidatoRepository.cadastrar(deficienciaCandidato);
         return novaDeficienciaCandidato;

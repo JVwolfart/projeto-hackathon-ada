@@ -9,6 +9,9 @@ const criptografar = require("../helpers/CryptHelper")
 
 class CadastrarCandidatoService {
     async execute(nome, cpf, email, senha, data_nascimento, sexo_biologico, etnia, identidade_genero, orientacao_sexual, pcd){
+        const ETNIAS = ["amarela", "branca", "preta", "parda", "indígena", "prefiro não informar"];
+        const IDENTIDADES_GENERO = ["cis", "trans", "não-binário", "prefiro não informar"];
+        const ORIENTACOES_SEXUAIS = ["heterossexual", "homossexual", "bissexual", "assexual", "pansexual", "prefiro não informar"];
         if(!nome || !cpf || !email || !senha || !data_nascimento || !sexo_biologico || !etnia || !identidade_genero || !orientacao_sexual || pcd === null || pcd === undefined){
             throw new AppError("ERRO! Nenhum campo pode ficar vazio")
         }
@@ -37,9 +40,21 @@ class CadastrarCandidatoService {
         }
         email = email.toLowerCase();
         etnia = etnia.toLowerCase();
+        if(!ETNIAS.includes(etnia)){
+            throw new AppError(`ERRO! Etnia informada inválida (são válidas apenas [${ETNIAS.join(", ")}])`);
+        }
         sexo_biologico = sexo_biologico.toLowerCase();
+        if(!["m", "f"].includes(sexo_biologico)){
+            throw new AppError(`ERRO! Sexo informado inválido (são válidos apenas 'm' ou 'f')`);
+        }
         identidade_genero = identidade_genero.toLowerCase();
+        if(!IDENTIDADES_GENERO.includes(identidade_genero)){
+            throw new AppError(`ERRO! Identidade de gênero informada inválida (são válidas apenas ${IDENTIDADES_GENERO.join(", ")})`);
+        }
         orientacao_sexual = orientacao_sexual.toLowerCase();
+        if(!ORIENTACOES_SEXUAIS.includes(etnia)){
+            throw new AppError(`ERRO! Orientação sexual informada inválida (são válidas apenas ${ORIENTACOES_SEXUAIS.join(", ")})`);
+        }
         const senhaCriptografada = criptografar(senha)
         const candidato = {nome: nome, cpf: cpf, email: email, senha: senhaCriptografada, data_nascimento: data_nascimento, sexo_biologico: sexo_biologico, etnia: etnia, identidade_genero: identidade_genero, orientacao_sexual: orientacao_sexual, pcd: pcd};
         const candidatoCadastrado = await candidatoRepository.cadastrar(candidato);
