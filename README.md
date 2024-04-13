@@ -103,9 +103,9 @@ Cada trilha conteve grupos de até 10 participantes.
       </a>
     </td>
     <td>
-      <a href="">
-        <img src="" width=100 />
-        <p>João <br/>Wolfart</p>
+      <a href="https://github.com/jVwolfart/">
+        <img src="https://avatars.githubusercontent.com/u/87876254?v=4" width=100 />
+        <p>João Vitor<br/>Wolfart</p>
       </a>
     </td>
     <td>
