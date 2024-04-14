@@ -21,10 +21,10 @@ routesCandidato.post("/candidato", requestLimiter, candidatoController.cadastrar
 routesCandidato.get("/candidato", candidatoController.listar);
 routesCandidato.get("/candidato/pcd", candidatoController.listar_candidatos_pcd);
 routesCandidato.post("/login", requestLimiter, candidatoController.login)
-routesCandidato.get("/teste_login", requestLimiter, middlewareNivel_1.execute, dadosUserController.dados_user);
-routesCandidato.get("/whoami", requestLimiter, dadosUserController.dados_user);
+//routesCandidato.get("/teste_login", requestLimiter, middlewareNivel_1.execute, dadosUserController.dados_user);
+routesCandidato.get("/whoami", autenticacaoMiddleware.execute, requestLimiter, dadosUserController.dados_user);
 
-routesCandidato.post("/deficiencia_candidato", requestLimiter, deficienciaCandidatoController.cadastrar);
+routesCandidato.post("/deficiencia_candidato", autenticacaoMiddleware.execute, requestLimiter, deficienciaCandidatoController.cadastrar);
 routesCandidato.get("/deficiencia_candidato/:id_candidato", deficienciaCandidatoController.buscar_por_candidato);
 
 routesCandidato.put("/contratar/:id_candidato", autenticacaoMiddleware.execute, requestLimiter, middlewareNivel_4.execute, candidatoController.contratar)
