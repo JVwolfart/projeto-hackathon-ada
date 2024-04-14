@@ -4,10 +4,12 @@ Sumário
 - [Hackathon Ada - CorpSolutions](#hackathon-ada---corpsolutions)
   - [Introdução](#introdução)
     - [Case](#case)
-  - [Equipe BE - 2 (Back End)](#equipe-be---2-back-end)
-    - [🏆 Integrantes](#-integrantes)
+  - [Projeto](#projeto)
     - [💪 Desafio](#-desafio)
     - [📦 Entregáveis](#-entregáveis)
+  - [Equipe Back End (BE - 2)](#equipe-back-end-be---2)
+    - [🏆 Integrantes](#-integrantes)
+  - [Desenvolvimento](#desenvolvimento)
     - [🗂️ Planejamento e design](#️-planejamento-e-design)
     - [⚙ Funcionalidades](#-funcionalidades)
     - [🚀 Stack utilizada](#-stack-utilizada)
@@ -65,7 +67,23 @@ Cada trilha conteve grupos de até 10 participantes.
 >
 > A Corp Solutions adota um modelo de trabalho flexível, que inclui opções de trabalho remoto e horários flexíveis.
 
-## Equipe BE - 2 (Back End)
+## Projeto
+
+### 💪 Desafio
+
+O desafio para os alunos é projetar e implementar uma API robusta e escalável para o sistema de RH da empresa. Eles devem considerar os requisitos de segurança, desempenho e escalabilidade, garantindo uma integração eficiente com a interface de usuário desenvolvida.
+
+### 📦 Entregáveis
+
+API funcional e escalável, desenvolvida com base nos requisitos estabelecidos, utilizando Node.js e Express.
+
+Documentação técnica detalhada, descrevendo a arquitetura da API, as tecnologias utilizadas e as principais decisões de design, incluindo modelos de dados e estrutura de rotas.
+
+Apresentação final do projeto, demonstrando as funcionalidades implementadas na API e explicando as decisões de design tomadas durante o processo de desenvolvimento do backend.
+
+Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Empregabilidade/adahack-2024-backend/tree/main/Entregas/BE-2).
+
+## Equipe Back End (BE - 2)
 
 ### 🏆 Integrantes
 
@@ -122,19 +140,7 @@ Cada trilha conteve grupos de até 10 participantes.
   </tr>
 </table>
 
-### 💪 Desafio
-
-O desafio para os alunos é projetar e implementar uma API robusta e escalável para o sistema de RH da empresa. Eles devem considerar os requisitos de segurança, desempenho e escalabilidade, garantindo uma integração eficiente com a interface de usuário desenvolvida.
-
-### 📦 Entregáveis
-
-API funcional e escalável, desenvolvida com base nos requisitos estabelecidos, utilizando Node.js e Express.
-
-Documentação técnica detalhada, descrevendo a arquitetura da API, as tecnologias utilizadas e as principais decisões de design, incluindo modelos de dados e estrutura de rotas.
-
-Apresentação final do projeto, demonstrando as funcionalidades implementadas na API e explicando as decisões de design tomadas durante o processo de desenvolvimento do backend.
-
-Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Empregabilidade/adahack-2024-backend/tree/main/Entregas/BE-2).
+## Desenvolvimento
 
 ### 🗂️ Planejamento e design
 
@@ -151,7 +157,10 @@ Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdn
 
 1. Abrir o terminal.
 2. Acessar a pasta onde deseja criar o projeto
-3. Digitar o comando abaixo: ```https://github.com/JVwolfart/projeto-hackathon-ada```
+3. Digitar o comando abaixo: 
+   ````
+   git clone https://github.com/JVwolfart/projeto-hackathon-ada
+   ````
 
 4. Criar um arquivo chamado ".env" na pasta raiz e adicionar o conteúdo abaixo:
 
