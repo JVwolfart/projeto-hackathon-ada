@@ -3,16 +3,16 @@
 Sumário
 - [Hackathon Ada - CorpSolutions](#hackathon-ada---corpsolutions)
   - [Introdução](#introdução)
-    - [Case](#case)
-  - [Projeto](#projeto)
+    - [🔎 Case](#-case)
+  - [Sobre o Projeto da trilha Back End](#sobre-o-projeto-da-trilha-back-end)
     - [💪 Desafio](#-desafio)
     - [📦 Entregáveis](#-entregáveis)
   - [Equipe Back End (BE - 2)](#equipe-back-end-be---2)
     - [🏆 Integrantes](#-integrantes)
   - [Desenvolvimento](#desenvolvimento)
     - [🗂️ Planejamento e design](#️-planejamento-e-design)
-    - [⚙ Funcionalidades](#-funcionalidades)
-    - [🚀 Stack utilizada](#-stack-utilizada)
+    - [⚙️ Funcionalidades](#️-funcionalidades)
+    - [‍💻 Tecnologias Utilizadas](#-tecnologias-utilizadas)
     - [🔧 Instalação](#-instalação)
 
 ## Introdução
@@ -30,7 +30,7 @@ O evento contou com a presença de várias empresas e dividiu-se em quatro trilh
 
 Cada trilha conteve grupos de até 10 participantes.
 
-### Case
+### 🔎 Case
 
 > A Jornada da Corp Solutions rumo à Diversidade e Inclusão
 >
@@ -67,7 +67,7 @@ Cada trilha conteve grupos de até 10 participantes.
 >
 > A Corp Solutions adota um modelo de trabalho flexível, que inclui opções de trabalho remoto e horários flexíveis.
 
-## Projeto
+## Sobre o Projeto da trilha Back End
 
 ### 💪 Desafio
 
@@ -146,9 +146,9 @@ Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Emp
 
 Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdnbDJQdmJOUERybmJpR2VQMjk3bUU5dTFJVVF0bVFUMmhFMXRzVjRHTHowTTBzYVZWNGZxckhKSlVROG1VeHwzNDU4NzY0NTg1NDEwOTkyMTMwfDI=?share_link_id=331407019813).
 
-### ⚙ Funcionalidades
+### ⚙️ Funcionalidades
 
-### 🚀 Stack utilizada
+### ‍💻 Tecnologias Utilizadas
 
 **Back-end:**
 `express`,`jsonwebtoken`, `multer`,`bcrypt`,`nodemon`,`cors`
@@ -163,12 +163,19 @@ Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdn
    ````
 
 4. Criar um arquivo chamado ".env" na pasta raiz e adicionar o conteúdo abaixo:
-
-````
-DB_HOST=srv1071.hstgr.io
-DB_USER=u953352787_adahack
-DB_PASSWORD=[rPbBXk=d+9A
-DB_DATABASE=u953352787_adahack
-````
-
-
+    ````
+    PORT=3000
+    DB_DIALECT="sqlite"
+    DB_STORAGE="db.sqlite"
+    SUPERUSER="ROOT"
+    PASSWORD_SUPERUSER="superuser"
+    JWT_SECRET="secret-exemplo"
+    PASSWORD_SALT="salt-exemplo"
+    IDADE_MINIMA=15
+    IDADE_LIMITE=120
+    DB_HOST="srv1071.hstgr.io"
+    DB_USER="u953352787_adahack"
+    DB_PASSWORD="[rPbBXk=d+9A"
+    DB_DATABASE="u953352787_adahack"
+    ````
+  5. Para entender as rotas, basta fazer download das collections do Insomnia que está raiz do projeto.
