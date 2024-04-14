@@ -190,4 +190,4 @@ DB_PASSWORD="[rPbBXk=d+9A"
 DB_DATABASE="u953352787_adahack"
 ````
 
-
+5. Para entender as rotas, basta fazer download das collections do Insomnia que está raiz do projeto.
