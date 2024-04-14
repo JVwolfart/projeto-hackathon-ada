@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const sequelize = require("../../infra/db");
 const CandidatoModel = require("../../infra/db/models/Candidato");
 const uuid = require("uuid")
@@ -8,11 +9,15 @@ class CandidatoRepository {
         return novoCandidato.dataValues;
     }
 
-    async listar(){
-        const candidatos = await CandidatoModel.findAll();
-        //const teste = await sequelize.query("SELECT etnia, COUNT(etnia) as n_candidatos FROM Candidato GROUP BY etnia ORDER BY n_candidatos DESC");
-        //console.log(teste);
-        return candidatos;
+    async listar(pagina){
+        const candidatos = await CandidatoModel.findAll({
+            limit: 20,
+            offset: 20*(pagina-1),
+            order: [["nome", "ASC"]]  
+        });
+        const totRegistrosTabela = await CandidatoModel.count()
+        const totRegistrosEnviados = candidatos.length
+        return {totRegistrosTabela, totRegistrosEnviados, candidatos};
     }
 
     async listar_filtros(campos){
@@ -23,6 +28,7 @@ class CandidatoRepository {
         
         return resultados;
     }
+
 
     async listar_donuts() {
         const fields = ['etnia', 'identidade_genero', 'orientacao_sexual'];
@@ -35,9 +41,72 @@ class CandidatoRepository {
         return await Promise.all(promises)
     }      
 
-    async listar_candidatos_pcd(){
-        const candidatos = await CandidatoModel.findAll({where: {pcd: true}});
-        return candidatos;
+    async listar_candidatos_pcd(pagina, funcionario=null){
+        let candidatos;
+        let totRegistrosConsulta;
+        let tipoConsulta;
+        if(funcionario === null){
+            candidatos = await CandidatoModel.findAll(
+                {
+                    where: {
+                        pcd: true
+                    },
+                    limit: 20,
+                    offset: 20*(pagina-1),
+                    order: [["nome", "ASC"]]
+                }
+            );
+            totRegistrosConsulta = await CandidatoModel.count({
+                where: {
+                pcd: true
+                }
+            })
+            tipoConsulta = "Todas as pessoas PcD cadastradas no sistema, incluindo candidatos e funcionários";
+        } else if(funcionario) {
+            candidatos = await CandidatoModel.findAll(
+                {
+                    where: {
+                        pcd: true,
+                        [Op.not]: {
+                            data_contratacao: null
+                        }
+                    },
+                    limit: 20,
+                    offset: 20*(pagina-1),
+                    order: [["nome", "ASC"]]
+                }
+            );
+            totRegistrosConsulta = await CandidatoModel.count({
+                where: {
+                    pcd: true,
+                    [Op.not]: {
+                        data_contratacao: null
+                    }
+                },
+            })
+            tipoConsulta = "Apenas os funcionários PcD contratados e em atividade";
+        } else {
+            candidatos = await CandidatoModel.findAll(
+                {
+                    where: {
+                        pcd: true,
+                        data_contratacao: null
+                    },
+                    limit: 20,
+                    offset: 20*(pagina-1),
+                    order: [["nome", "ASC"]]
+                }
+            );
+            totRegistrosConsulta = await CandidatoModel.count({
+                where: {
+                    pcd: true,
+                    data_contratacao: null
+                },
+            })
+            tipoConsulta = "Apenas os candidatos PcD ainda não contratados";
+        }
+        const totRegistrosEnviadosNaPagina = candidatos.length;
+        return {totRegistrosConsulta, tipoConsulta, totRegistrosEnviadosNaPagina, candidatos};
     }
 
     async buscar_por_cpf(cpf){
