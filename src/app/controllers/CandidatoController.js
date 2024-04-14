@@ -1,15 +1,16 @@
 const dados_usuario_logado = require("../helpers/DadosUsuarioLogado");
 const cadastrarCandidatoService = require("../services/CadastrarCandidatoService");
 const contratarCandidatoService = require("../services/ContratarCandidatoService");
+const desligarCandidatoService = require("../services/DesligarCandidatoService");
 const listarCandidatosPcdService = require("../services/ListarCandidatosPcdService");
 const listarCandidatosService = require("../services/ListarCandidatosService");
 const loginService = require("../services/LoginService");
 
 class CandidatoController {
     async cadastrar(req, res, next){
-        const {nome, cpf, email, senha, data_nascimento, sexo_biologico, etnia, identidade_genero, orientacao_sexual, pcd} = req.body;
+        const {nome, cpf, email, senha, data_nascimento, etnia, identidade_genero, orientacao_sexual, pcd} = req.body;
         try {
-            const novoCandidato = await cadastrarCandidatoService.execute(nome, cpf, email, senha, data_nascimento, sexo_biologico, etnia, identidade_genero, orientacao_sexual, pcd);
+            const novoCandidato = await cadastrarCandidatoService.execute(nome, cpf, email, senha, data_nascimento, etnia, identidade_genero, orientacao_sexual, pcd);
             res.status(201).send(novoCandidato)
             next();
         } catch (error) {
@@ -57,6 +58,21 @@ class CandidatoController {
             const usuario = dados_usuario_logado(accessToken);
             const candidatoContratado = await contratarCandidatoService.execute(id_candidato, data_contratacao, usuario, nivel_acesso);
             res.status(200).send(candidatoContratado);
+            next();
+        } catch (error) {
+            next(error);
+        }
+    }
+
+    async desligar(req, res, next){
+        try {
+            const {data_demissao} = req.body;
+            const {id_candidato} = req.params;
+            const authorizationHeader = req.header("Authorization");
+            const accessToken = authorizationHeader.split(" ")[1];
+            const usuario = dados_usuario_logado(accessToken);
+            const candidatoDesligado = await desligarCandidatoService.execute(id_candidato, data_demissao, usuario);
+            res.status(200).send(candidatoDesligado);
             next();
         } catch (error) {
             next(error);

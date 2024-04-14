@@ -26,20 +26,16 @@ const CandidatoModel = sequelize.define("Candidato", {
         type: DataTypes.DATE,
         allowNull: false
     },
-    sexo_biologico: {
-        type: DataTypes.ENUM("m", "f"),
-        allowNull: false
-    },
     etnia: {
         type: DataTypes.ENUM("amarela", "branca", "preta", "parda", "indígena", "prefiro não informar"),
         allowNull: false
     },
     identidade_genero: {
-        type: DataTypes.ENUM("cis", "trans", "não-binário", "prefiro não informar"),
+        type: DataTypes.ENUM("mulher cis", "homem cis", "mulher trans", "homem trans", "não-binário", "neutro", "agênero"),
         allowNull: false
     },
     orientacao_sexual: {
-        type: DataTypes.ENUM("heterossexual", "homossexual", "bissexual", "assexual", "pansexual", "prefiro não informar"),
+        type: DataTypes.ENUM("heterossexual", "homossexual", "bissexual", "assexual", "pansexual", "outro"),
         allowNull: false
     },
     pcd: {
@@ -47,6 +43,10 @@ const CandidatoModel = sequelize.define("Candidato", {
         allowNull: false
     },
     data_contratacao: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
+    data_ultima_contratacao: {
         type: DataTypes.DATE,
         allowNull: true
     },

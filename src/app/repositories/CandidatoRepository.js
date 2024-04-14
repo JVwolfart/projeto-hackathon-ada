@@ -15,6 +15,15 @@ class CandidatoRepository {
         return candidatos;
     }
 
+    async listar_filtros(campos){
+        
+        const query = `SELECT * FROM Candidato WHERE ${campos.join(' AND ')}`
+        console.log(query)
+        const resultados = await sequelize.query(query)
+        
+        return resultados;
+    }
+
     async listar_candidatos_pcd(){
         const candidatos = await CandidatoModel.findAll({where: {pcd: true}});
         return candidatos;
@@ -67,8 +76,20 @@ class CandidatoRepository {
         return candidatoContratado;
     }
     
-    async desligar(candidato, data_demissao, usuario, nivel_acesso){
-        
+    async desligar(candidato, data_demissao, usuario){
+        const candidatoDesligado = await CandidatoModel.update({
+            data_ultima_contratacao: candidato.data_contratacao,
+            data_contratacao: null,
+            usuario_alterou: usuario.id,
+            nivel_acesso: "0",
+            data_demissao: data_demissao
+        }, {
+            where: {
+                id: candidato.id
+            }
+        }
+        )
+        return candidatoDesligado;
     }
 }
 
