@@ -175,10 +175,19 @@ Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdn
 4. Criar um arquivo chamado ".env" na pasta raiz e adicionar o conteúdo abaixo:
 
 ````
-DB_HOST=srv1071.hstgr.io
-DB_USER=u953352787_adahack
-DB_PASSWORD=[rPbBXk=d+9A
-DB_DATABASE=u953352787_adahack
+PORT=3000
+DB_DIALECT="sqlite"
+DB_STORAGE="db.sqlite"
+SUPERUSER="ROOT"
+PASSWORD_SUPERUSER="superuser"
+JWT_SECRET="secret-exemplo"
+PASSWORD_SALT="salt-exemplo"
+IDADE_MINIMA=15
+IDADE_LIMITE=120
+DB_HOST="srv1071.hstgr.io"
+DB_USER="u953352787_adahack"
+DB_PASSWORD="[rPbBXk=d+9A"
+DB_DATABASE="u953352787_adahack"
 ````
 
 
