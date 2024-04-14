@@ -29,6 +29,18 @@ class CandidatoRepository {
         return resultados;
     }
 
+
+    async listar_donuts() {
+        const fields = ['etnia', 'identidade_genero', 'orientacao_sexual'];
+        const promises = fields.map(field => new Promise(function(resolve, reject){
+                sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato WHERE data_contratacao is NOT NULL GROUP BY ${field}`)
+                .then(result => resolve(result[0]))
+                .catch(error => reject(error))
+            })
+        )
+        return await Promise.all(promises)
+    }      
+
     async listar_candidatos_pcd(pagina, funcionario=null){
         let candidatos;
         let totRegistrosConsulta;
