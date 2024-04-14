@@ -1,8 +1,11 @@
 const candidatoRepository = require("../repositories/CandidatoRepository");
 
 class ListarCandidatosService {
-    async execute(){
-        const candidatos = await candidatoRepository.listar();
+    async execute(pagina){
+        if(!pagina || pagina < 1 || isNaN(pagina)){
+            pagina = 1;
+        }
+        const candidatos = await candidatoRepository.listar(pagina);
         return candidatos;
     }
 }

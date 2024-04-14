@@ -20,7 +20,8 @@ class CandidatoController {
 
     async listar(req, res, next){
         try {
-            const candidatos = await listarCandidatosService.execute();
+            const {pagina} = req.query;
+            const candidatos = await listarCandidatosService.execute(pagina);
             res.status(200).send(candidatos);
             next();
         } catch (error) {
@@ -30,7 +31,8 @@ class CandidatoController {
 
     async listar_candidatos_pcd(req, res, next){
         try {
-            const candidatos = await listarCandidatosPcdService.execute();
+            const {funcionario, pagina} = req.query;
+            const candidatos = await listarCandidatosPcdService.execute(funcionario, pagina);
             res.status(200).send(candidatos);
             next();
         } catch (error) {
