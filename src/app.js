@@ -13,7 +13,7 @@ app.use(cors({
 }))
 app.use(morgan("tiny"));
 app.use(helmet());
-app.use(routes);
+app.use("/v1", routes);
 
 
 const PORT = parseInt(process.env.PORT)
