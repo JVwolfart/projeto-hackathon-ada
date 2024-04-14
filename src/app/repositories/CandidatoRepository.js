@@ -78,6 +78,7 @@ class CandidatoRepository {
     
     async desligar(candidato, data_demissao, usuario){
         const candidatoDesligado = await CandidatoModel.update({
+            data_ultima_contratacao: candidato.data_contratacao,
             data_contratacao: null,
             usuario_alterou: usuario.id,
             nivel_acesso: "0",

@@ -28,6 +28,7 @@ routesCandidato.post("/deficiencia_candidato", requestLimiter, deficienciaCandid
 routesCandidato.get("/deficiencia_candidato/:id_candidato", deficienciaCandidatoController.buscar_por_candidato);
 
 routesCandidato.put("/contratar/:id_candidato", autenticacaoMiddleware.execute, requestLimiter, middlewareNivel_4.execute, candidatoController.contratar)
+routesCandidato.put("/desligar/:id_candidato", autenticacaoMiddleware.execute, requestLimiter, middlewareNivel_4.execute, candidatoController.desligar)
 
 routesCandidato.get("/deficiencia_candidato/:id_candidato", deficienciaCandidatoController.buscar_por_candidato);
 
