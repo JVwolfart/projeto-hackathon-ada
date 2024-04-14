@@ -159,6 +159,17 @@ class CandidatoRepository {
         )
         return candidatoDesligado;
     }
+
+    async setar_pcd(candidato){
+        const candidatoPcd = await CandidatoModel.update({
+            pcd: true
+        },
+        {
+            where: {
+                id: candidato.id
+            }
+        })
+    }
 }
 
 const candidatoRepository = new CandidatoRepository();

@@ -1,11 +1,15 @@
 const cadastrarDeficienciaCandidatoService = require("../services/CadastrarDeficienciaCandidatoService");
 const listarDeficienciasPorCandidatoService = require("../services/ListarDeficienciasPorCandidatoService");
+const dados_usuario_logado = require("../helpers/DadosUsuarioLogado")
 
 class DeficienciaCandidatoController {
     async cadastrar(req, res, next){
-        const {id_candidato, tipo_deficiencia, descricao, cid} = req.body;
+        const {tipo_deficiencia, descricao, cid} = req.body;
         try {
-            const deficienciaCandidato = await cadastrarDeficienciaCandidatoService.execute(id_candidato, tipo_deficiencia, descricao, cid);
+            const authorizationHeader = req.header("Authorization");
+            const accessToken = authorizationHeader.split(" ")[1];
+            const usuario = dados_usuario_logado(accessToken);
+            const deficienciaCandidato = await cadastrarDeficienciaCandidatoService.execute(tipo_deficiencia, descricao, cid, usuario);
             res.status(201).send(deficienciaCandidato)
             next();
         } catch (error) {

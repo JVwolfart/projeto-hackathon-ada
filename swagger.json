@@ -158,7 +158,6 @@
                         "examples": {
                             "deficiencia_candidato": {
                                 "value": {
-                                    "id_candidato": "042bb317-77eb-4bde-93e0-da54c7ff9461",
                                     "tipo_deficiencia": "física",
                                     "descricao": "",
                                     "cid": ""
@@ -286,9 +285,6 @@
             "PcD": {
                 "type": "object",
                 "properties": {
-                    "id_candidato": {
-                        "type": "string"
-                    },
                     "tipo_deficiencia": {
                         "type": "string",
                         "enum": ["visual", "auditiva", "mental", "intelectual", "espectro autista", "física"]
