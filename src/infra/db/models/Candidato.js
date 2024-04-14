@@ -46,6 +46,10 @@ const CandidatoModel = sequelize.define("Candidato", {
         type: DataTypes.DATE,
         allowNull: true
     },
+    data_ultima_contratacao: {
+        type: DataTypes.DATE,
+        allowNull: true
+    },
     data_demissao: {
         type: DataTypes.DATE,
         allowNull: true
