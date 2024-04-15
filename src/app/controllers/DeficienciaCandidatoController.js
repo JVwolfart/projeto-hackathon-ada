@@ -21,8 +21,8 @@ class DeficienciaCandidatoController {
         const {id_candidato} = req.params
         try {
             const deficienciasCandidato = await listarDeficienciasPorCandidatoService.execute(id_candidato);
-            res.status(200).send(deficienciasCandidato);
-            next();
+            return res.status(200).send(deficienciasCandidato);
+            //next();
         } catch (error) {
             next(error);
         }
