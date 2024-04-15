@@ -17,9 +17,11 @@ class ContratarCandidatoService {
         if(!NIVEIS_ACESSO.includes(nivel_acesso)){
             throw new AppError(`ERRO! Nível de acesso informado inválido (são válidos apenas ${NIVEIS_ACESSO.join(`, `)})`);
         }
-        console.log(nivel_acesso);
-        console.log(usuario.nivel_acesso);
-        if(!(usuario.email !== process.env.SUPERUSER || usuario.senha !== process.env.PASSWORD_SUPERUSER) || parseInt(usuario.nivel_acesso) <= parseInt(nivel_acesso)){
+        console.log(process.env.SUPERUSER);
+        console.log(process.env.PASSWORD_SUPERUSER);
+
+        if(!(usuario.email === process.env.SUPERUSER && usuario.senha === process.env.PASSWORD_SUPERUSER) && parseInt(usuario.nivel_acesso) <= parseInt(nivel_acesso)){
+            console.log(usuario);
             throw new AppError(`ERRO! Seu nível de acesso é ${usuario.nivel_acesso}. Você só tem permissão para setar um nível menor que o seu para o usuário. Se necessitar de um nível maior, solicite ao ROOT`);
         }
         if(usuario.email === process.env.SUPERUSER && usuario.senha === process.env.PASSWORD_SUPERUSER){
