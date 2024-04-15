@@ -11,8 +11,8 @@ class DashboardController {
         }
         try {
             const candidatos = await filtrarCandidatosService.execute(queryParams);
-            console.log(queryParams)
-            console.log(candidatos)
+            //console.log(queryParams)
+            //console.log(candidatos)
             res.status(200).send(candidatos)
         } catch (error) {
             next(error);

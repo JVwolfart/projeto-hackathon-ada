@@ -20,11 +20,29 @@ class CandidatoRepository {
         return {totRegistrosTabela, totRegistrosEnviados, candidatos};
     }
 
-    async listar_filtros(campos){
-        
-        const query = `SELECT * FROM Candidato WHERE ${campos.join(' AND ')}`
-        console.log(query)
-        const resultados = await sequelize.query(query)
+    async listar_filtros(campos=[]){
+        const parametros = [];
+        const valores = []
+        for(let i = 0; i < campos.length; i++){
+            let [chave, valor] = campos[i].split("=");
+            valor = valor.replace("'", "").replace("'", "");
+            parametros.push(`${chave}=?`);
+            valores.push(valor);
+        }
+        let resultados;
+        if(campos.length > 0){
+            const query = `SELECT * FROM Candidato WHERE ${parametros.join(' AND ')}`
+            //console.log(query)
+            resultados = await sequelize.query(query, {
+                replacements: valores
+            });
+        } else {
+            const query = `SELECT * FROM Candidato`
+            //console.log(query)
+            resultados = await sequelize.query(query, {
+                replacements: valores
+            });
+        }
         
         return resultados;
     }

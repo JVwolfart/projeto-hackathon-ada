@@ -3,7 +3,6 @@ const candidatoRepository = require("../repositories/CandidatoRepository");
 
 class DesligarCandidatoService {
     async execute(id_candidato, data_demissao, usuario){
-        const NIVEIS_ACESSO = ["0", "1", "2", "3", "4", "5"];
         if(!id_candidato || !data_demissao || !usuario){
             throw new AppError("ERRO! Nenhum campo pode ficar vazio");
         }
@@ -16,6 +15,9 @@ class DesligarCandidatoService {
         }
         if(usuario.email === process.env.SUPERUSER && usuario.senha === process.env.PASSWORD_SUPERUSER){
             usuario.id = "ROOT";
+        }
+        if(parseInt(usuario.nivel_acesso) <= parseInt(candidato.nivel_acesso)){
+            throw new AppError(`ERRO! O funcionário ${candidato.nome} possui nível de acesso igual ou maior que o seu, não é possível fazer o desligamento dele. Para isso solicite a alguém com o nível maior que o seu, ou ao ROOT`)
         }
         const candidatoDesligado = await candidatoRepository.desligar(candidato, data_demissao, usuario);
         return candidatoDesligado;
