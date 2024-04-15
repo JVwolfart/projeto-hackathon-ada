@@ -19,7 +19,7 @@ const requestLimiter = rateLimit({
 
 
 routesCandidato.post("/candidato", requestLimiter, candidatoController.cadastrar);
-routesCandidato.get("/candidato", candidatoController.listar);
+routesCandidato.get("/lista_pessoas", autenticacaoMiddleware.execute, middlewareNivel_2.execute, candidatoController.listar);
 routesCandidato.get("/candidato/pcd", autenticacaoMiddleware.execute, middlewareNivel_1.execute, candidatoController.listar_candidatos_pcd);
 routesCandidato.post("/login", requestLimiter, candidatoController.login)
 //routesCandidato.get("/teste_login", requestLimiter, middlewareNivel_1.execute, dadosUserController.dados_user);

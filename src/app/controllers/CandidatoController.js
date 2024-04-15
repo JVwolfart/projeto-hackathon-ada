@@ -20,8 +20,8 @@ class CandidatoController {
 
     async listar(req, res, next){
         try {
-            const {pagina} = req.query;
-            const candidatos = await listarCandidatosService.execute(pagina);
+            const {pagina, funcionario} = req.query;
+            const candidatos = await listarCandidatosService.execute(pagina, funcionario);
             res.status(200).send(candidatos);
             next();
         } catch (error) {

@@ -9,15 +9,55 @@ class CandidatoRepository {
         return novoCandidato.dataValues;
     }
 
-    async listar(pagina){
-        const candidatos = await CandidatoModel.findAll({
+    async listar(pagina, funcionario){
+        let candidatos;
+        let totRegistrosTabela;
+        let tipoConsulta;
+        if(funcionario === null){
+        candidatos = await CandidatoModel.findAll({
             limit: 20,
             offset: 20*(pagina-1),
             order: [["nome", "ASC"]]  
         });
-        const totRegistrosTabela = await CandidatoModel.count()
+        totRegistrosTabela = await CandidatoModel.count()
+        tipoConsulta = "Consulta todos os dados do banco (funcionários+candidatos)";
+        } else if(funcionario){
+            candidatos = await CandidatoModel.findAll({
+                limit: 20,
+                offset: 20*(pagina-1),
+                order: [["nome", "ASC"]],
+                where: {
+                    [Op.not]: {
+                        data_contratacao: null
+                    }
+                }
+            });
+        totRegistrosTabela = await CandidatoModel.count({
+                where: {
+                    [Op.not]: {
+                        data_contratacao: null
+                    }
+                }
+            })
+        tipoConsulta = "Lista apenas dos funcionários contratados e em atividade";
+        } else {
+            candidatos = await CandidatoModel.findAll({
+                limit: 20,
+                offset: 20*(pagina-1),
+                order: [["nome", "ASC"]],
+                where: {
+                    data_contratacao: null
+                }
+            });
+        totRegistrosTabela = await CandidatoModel.count({
+                where: {
+                    data_contratacao: null
+                }
+            })
+        tipoConsulta = "Lista apenas dos candidatos não contratados ainda";
+        }
         const totRegistrosEnviados = candidatos.length
-        return {totRegistrosTabela, totRegistrosEnviados, candidatos};
+        return {pagina: parseInt(pagina), totRegistrosTabela, totRegistrosEnviados, tipoConsulta, candidatos};
     }
 
     async listar_filtros(campos=[]){
@@ -124,7 +164,7 @@ class CandidatoRepository {
             tipoConsulta = "Apenas os candidatos PcD ainda não contratados";
         }
         const totRegistrosEnviadosNaPagina = candidatos.length;
-        return {totRegistrosConsulta, tipoConsulta, totRegistrosEnviadosNaPagina, candidatos};
+        return {pagina: parseInt(pagina), totRegistrosConsulta, tipoConsulta, totRegistrosEnviadosNaPagina, candidatos};
     }
 
     async buscar_por_cpf(cpf){

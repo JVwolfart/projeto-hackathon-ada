@@ -477,8 +477,58 @@
                     "403": {
                         "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
                     },
-                    "404": {
-                        "description": "Funcionário não encontrado"
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
+        },
+
+        "/lista_pessoas": {
+            "get": {
+                "summary": "Listagem de pessoas cadastradas",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 2, a possibilidade de realizar a consulta ao sistema de todas as pessoas cadastradas. A consulta será paginada com 20 registros por requisição, portanto deve-se informar a página que deseja consultar (se não informar, por padrão será a página 1). Além disso, pode-se informar também se você quer consultar apenas os funcionários da empresa, ou apenas os candidatos ainda não admitidos, e caso não informe, o sistema trará tanto os candidatos quanto os funcionários. OBS: A resposta será em ordem alfabética",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name":"pagina",
+                        "in":"query",
+                        "description":"Informe a página que deseja consultar (por padrão, será a página 1)",
+                        "required":false,
+                        "type":"string"
+                    },
+                    {
+                        "name":"funcionario",
+                        "in":"query",
+                        "description":"Informe true para vir apenas os funcionários, false para vir apenas os candidatos, ou deixe em branco para vir todos",
+                        "required":false,
+                        "type":"string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/ListagemPcd"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
                     },
                     "500": {
                         "description": "Ocorreu um erro interno no servidor"
@@ -633,6 +683,9 @@
             "ListagemPcd": {
                 "type": "object",
                 "properties": {
+                    "pagina": {
+                        "type": "number"
+                    },
                     "totRegistrosConsulta": {
                         "type": "number"
                     },
