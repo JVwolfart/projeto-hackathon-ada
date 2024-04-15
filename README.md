@@ -11,8 +11,8 @@ Sumário
     - [🏆 Integrantes](#-integrantes)
   - [Desenvolvimento](#desenvolvimento)
     - [🗂️ Planejamento e design](#️-planejamento-e-design)
-    - [⚙️ Funcionalidades](#️-funcionalidades)
     - [‍💻 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+    - [⚙️ Funcionalidades](#️-funcionalidades)
     - [🔧 Instalação](#-instalação)
 
 ## Introdução
@@ -146,12 +146,12 @@ Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Emp
 
 Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdnbDJQdmJOUERybmJpR2VQMjk3bUU5dTFJVVF0bVFUMmhFMXRzVjRHTHowTTBzYVZWNGZxckhKSlVROG1VeHwzNDU4NzY0NTg1NDEwOTkyMTMwfDI=?share_link_id=331407019813).
 
-### ⚙️ Funcionalidades
-
 ### ‍💻 Tecnologias Utilizadas
 
 **Back-end:**
-`express`,`jsonwebtoken`, `multer`,`bcrypt`,`nodemon`,`cors`
+`Express`, `Jsonwebtoken`, `Multer`, `Bcrypt`, `Nodemon`, `CORS`, `Dotenv`, `Helmet`, `MySQL`, `Sequelize`, `UUID`.
+
+### ⚙️ Funcionalidades
 
 ### 🔧 Instalação
 
