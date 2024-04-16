@@ -84,7 +84,33 @@ class CandidatoRepository {
             });
         }
         
-        return resultados;
+        return resultados[0];
+    }
+
+    async listar_funcionarios_por_filtros(campos=[]){
+        const parametros = [];
+        const valores = []
+        for(let i = 0; i < campos.length; i++){
+            let [chave, valor] = campos[i].split("=");
+            valor = valor.replace("'", "").replace("'", "");
+            parametros.push(`${chave}=?`);
+            valores.push(valor);
+        }
+        let resultados;
+        if(campos.length > 0){
+            const query = `SELECT * FROM Candidato WHERE ${parametros.join(' AND ')} AND data_contratacao IS NOT NULL`
+            //console.log(query)
+            resultados = await sequelize.query(query, {
+                replacements: valores
+            });
+        } else {
+            const query = `SELECT * FROM Candidato WHERE data_contratacao IS NOT NULL`
+            //console.log(query)
+            resultados = await sequelize.query(query, {
+                replacements: valores
+            });
+        }
+        return resultados[0];
     }
 
 
@@ -132,7 +158,89 @@ class CandidatoRepository {
             totalRegistros += resultado[0][i].quantidade;
         }
         return {totalRegistros, tipoConsulta, resultado}
-    }      
+    }
+    
+    async relatorio_pcd(consulta){
+        let promises;
+        let tipoConsulta;
+        switch (consulta) {
+            case "funcionarios":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Ranking dos tipos de deficiência dos funcionários PcD (somente funcionários em atividade)";
+                break;
+            case "candidatos":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Ranking dos tipos de deficiência dos candidatos PcD (somente os candidatos ainda não contratados)";
+                break;
+            case "desligados":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_demissao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Ranking dos tipos de deficiência dos funcionários PcD desligados (somente os funcionários que já passaram pela empresa e foram desligados)";
+                break;
+            default:
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Ranking dos tipos de deficiência das pessoas PcD cadastradas no banco de dados (incluindo funcionários e candidatos)";
+                break;
+        }
+        const resultado = await Promise.resolve(promises);
+        return {tipoConsulta, resultado}
+    }
+
+    async relatorio_pcd_vs_nao_pcd(consulta){
+        let promises;
+        let tipoConsulta;
+        switch (consulta) {
+            case "funcionarios":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE data_contratacao IS NOT NULL) AS total_de_pessoas, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE data_contratacao IS NOT NULL)*100 AS percentual_deficiencias_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE data_contratacao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre os tipos de deficiência dos funcionários PcD (somente funcionários em atividade) com os funcionários não PcD em atividade";
+                break;
+            case "candidatos":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE data_contratacao IS NULL) AS total_de_pessoas, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE data_contratacao IS NULL)*100 AS percentual_deficiencias_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE data_contratacao IS NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre os tipos de deficiência dos candidatos PcD (somente os candidatos ainda não contratados) com os candidatos não PcD";
+                break;
+            case "desligados":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE data_demissao IS NOT NULL) AS total_de_pessoas, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE data_demissao IS NOT NULL)*100 AS percentual_deficiencias_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE data_demissao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre os tipos de deficiência dos funcionários PcD desligados (somente os funcionários que já passaram pela empresa e foram desligados) com os funcionários não PcD desligados pela empresa";
+                break;
+            default:
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato) AS total_de_pessoas, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato)*100 AS percentual_deficiencias_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre os tipos de deficiência das pessoas PcD cadastradas no banco de dados (incluindo funcionários e candidatos) com as pessoas não PcD";
+                break;
+        }
+        const resultado = await Promise.resolve(promises);
+        return {tipoConsulta, resultado}
+    }
 
     async listar_candidatos_pcd(pagina, funcionario=null){
         let candidatos;
@@ -200,6 +308,50 @@ class CandidatoRepository {
         }
         const totRegistrosEnviadosNaPagina = candidatos.length;
         return {pagina: parseInt(pagina), totRegistrosConsulta, tipoConsulta, totRegistrosEnviadosNaPagina, candidatos};
+    }
+
+    async percentual_pcd(consulta){
+        let promises;
+        let tipoConsulta;
+        switch (consulta) {
+            case "funcionarios":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT (CASE WHEN (pcd=true) THEN  ("pcd") ELSE( "não pcd" ) END) AS "condicao", COUNT(*) AS quantidade FROM Candidato WHERE data_contratacao IS NOT NULL GROUP BY condicao ORDER BY quantidade DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre funcionários PcD e não PcD";
+                break;
+            case "candidatos":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT (CASE WHEN (pcd=true) THEN  ("pcd") ELSE( "não pcd" ) END) AS "condicao", COUNT(*) AS quantidade FROM Candidato WHERE data_contratacao IS NULL GROUP BY condicao ORDER BY quantidade DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação candidatos PcD e não PcD";
+                break;
+            case "desligados":
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT (CASE WHEN (pcd=true) THEN  ("pcd") ELSE( "não pcd" ) END) AS "condicao", COUNT(*) AS quantidade FROM Candidato WHERE data_demissao IS NOT NULL GROUP BY condicao ORDER BY quantidade DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre funcionários desligados PcD e não PcD";
+                break;
+            default:
+                promises = new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT (CASE WHEN (pcd=true) THEN  ("pcd") ELSE( "não pcd" ) END) AS "condicao", COUNT(*) AS quantidade FROM Candidato GROUP BY condicao ORDER BY quantidade DESC;`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                })
+                tipoConsulta = "Relação entre as pessoas PcD e não PcD cadastradas no banco ";
+                break;
+        }
+        const resultado = await Promise.resolve(promises);
+        const totalPessoas = resultado[0].quantidade+resultado[1].quantidade;
+        resultado[0].percentual = (resultado[0].quantidade/totalPessoas*100).toFixed(2);
+        resultado[1].percentual = (resultado[1].quantidade/totalPessoas*100).toFixed(2);
+        return {tipoConsulta, resultado};
     }
 
     async buscar_por_cpf(cpf){

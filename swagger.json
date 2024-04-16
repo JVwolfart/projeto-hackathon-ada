@@ -298,6 +298,66 @@
             }
         },
 
+        "/dashboard/funcionarios": {
+            "get": {
+                "summary": "Filtro de funcionários em atividade por etnia, identidade de gênero, e/ou orientação sexual",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 2, a possibilidade de realizar a consulta ao sistema informando os parâmetros que deseja consultar. Os parâmetros possíveis são: etnia (amarela, branca, preta, parda, indígena, prefiro não informar), identidade_genero (mulher cis, homem cis, mulher trans, homem trans, não-binário, neutro, agênero) e orientacao_sexual (heterossexual, homossexual, bissexual, assexual, pansexual, outro). Esses parâmetros podem ser utilizados individualmente, ou em conjunto para realizar as consultas, como por exemplo: todos os registros de funcionários com orientação sexual = homossexual (que vai resultar em uma lista de todos os funcionários que possuem essa orientação sexual, ou então pode também acrescentar o parâmetro de etnia = preta, que nesse caso, vai trazer a lista com todos os homossexuais de etnia preta, podendo ainda acrescentar o parâmetro de identidade de gênero = mulher trans, assim trazendo todos os registros de mulheres trans, homossexuais da etnia preta",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters":[  
+               {  
+                  "name":"etnia",
+                  "in":"query",
+                  "description":"Informar o tipo de etnia que deseja. ex: [amarela, branca, preta, parda, indígena, prefiro não informar]",
+                  "required":false,
+                  "type":"string"
+               },
+               {  
+                  "name":"identidade_genero",
+                  "in":"query",
+                  "description":"Informe a identidade de gênero que deseja. ex: [mulher cis, homem cis, mulher trans, homem trans, não-binário, neutro, agênero]",
+                  "required":false,
+                  "type":"string"
+               },
+               {  
+                  "name":"orientacao_sexual",
+                  "in":"query",
+                  "description":"Informe a orientação sexual que deseja. ex: [heterossexual, homossexual, bissexual, assexual, pansexual, outro]",
+                  "required":false,
+                  "type":"string"
+               }
+            ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "$ref": "#/components/schemas/Candidato"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 2)"
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
+        },
+
 
         "/contratar/{id}": {
             "put": {
@@ -579,6 +639,138 @@
                     }
                 }
             }
+        },
+
+        "/dashboard/relatorio_pcd/{consulta}": {
+            "get": {
+                "summary": "Ranking dos tipos de deficiência",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 4, a possibilidade de realizar a consulta ao sistema das deficiências das pessoas. Tendo a possibilidade de escolher se quer a consulta apenas dos funcionários em atividade, apenas dos candidatos não contratados ainda, apenas dos candidatos que já foram desligados, ou então de todas as pessoas do banco de dados",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name":"consulta",
+                        "in":"path",
+                        "description":"Informe o parâmetro da consulta. Opções: todos, funcionarios, candidatos, desligados",
+                        "required":true,
+                        "type":"string",
+                        "default": "funcionarios"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RelatorioPcd"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
+        },
+
+        "/dashboard/relatorio_pcd_vs_nao_pcd/{consulta}": {
+            "get": {
+                "summary": "Relação entre tipos de deficiência das pessoas PcD em relação as pessoas não PcD",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 4, a possibilidade de realizar a consulta ao sistema das deficiências das pessoas PcD em relação as pessoas não PcD. Tendo a possibilidade de escolher se quer a consulta apenas dos funcionários em atividade, apenas dos candidatos não contratados ainda, apenas dos candidatos que já foram desligados, ou então de todas as pessoas do banco de dados",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name":"consulta",
+                        "in":"path",
+                        "description":"Informe o parâmetro da consulta. Opções: todos, funcionarios, candidatos, desligados",
+                        "required":true,
+                        "type":"string",
+                        "default": "funcionarios"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RelatorioPcdVsNaoPcd"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
+        },
+
+        "/dashboard/relacao_pcd/{consulta}": {
+            "get": {
+                "summary": "Relação entre pessoas PcD e não PcD",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 4, a possibilidade de realizar a consulta ao sistema das pessoas PcD em relação as pessoas não PcD. Tendo a possibilidade de escolher se quer a consulta apenas dos funcionários em atividade, apenas dos candidatos não contratados ainda, apenas dos candidatos que já foram desligados, ou então de todas as pessoas do banco de dados",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name":"consulta",
+                        "in":"path",
+                        "description":"Informe o parâmetro da consulta. Opções: todos, funcionarios, candidatos, desligados",
+                        "required":true,
+                        "type":"string",
+                        "default": "funcionarios"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/RelacaoPcd"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -795,6 +987,42 @@
                 }
             },
 
+            "TipoDeficiencia": {
+                "type": "object",
+                "properties": {
+                    "tipo_deficiencia": {
+                        "type": "string"
+                    },
+                    "total_de_pessoas_deficientes": {
+                        "type": "number"
+                    },
+                    "total_de_pessoas_com_essa_deficiencia": {
+                        "type": "number"
+                    },
+                    "percentual_sobre_total": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "TipoDeficienciaPcdVsNaoPcd": {
+                "type": "object",
+                "properties": {
+                    "tipo_deficiencia": {
+                        "type": "string"
+                    },
+                    "total_de_pessoas": {
+                        "type": "number"
+                    },
+                    "total_de_pessoas_com_essa_deficiencia": {
+                        "type": "number"
+                    },
+                    "percentual_deficiencias_sobre_total": {
+                        "type": "string"
+                    }
+                }
+            },
+
             "Diversidade": {
                 "type": "object",
                 "properties": {
@@ -818,8 +1046,75 @@
                         }
                     }
                 }
+            },
+
+            "RelatorioPcd": {
+                "type": "object",
+                "properties": {
+                    "tipoConsulta": {
+                        "type": "string"
+                    },
+                    "resultado": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/TipoDeficiencia"
+                        }
+                    }
+                }
+            },
+
+            "RelatorioPcdVsNaoPcd": {
+                "type": "object",
+                "properties": {
+                    "tipoConsulta": {
+                        "type": "string"
+                    },
+                    "resultado": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "$ref": "#/components/schemas/TipoDeficienciaPcdVsNaoPcd"
+                        }
+                    }
+                }
+            },
+
+            "Condicao": {
+                "type": "object",
+                "properties": {
+                    "condicao": {
+                        "type": "string"
+                    },
+                    "quantidade": {
+                        "type": "number"
+                    },
+                    "percentual": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "RelacaoPcd": {
+                "type": "object",
+                "properties": {
+                    "tipoConsulta": {
+                        "type": "string"
+                    },
+                    "resultado": {
+                        "type": "array",
+                        "items": {
+                            "oneOf": [
+                                {"$ref": "#/components/schemas/Condicao"},
+                                {"$ref": "#/components/schemas/Condicao"}
+                            ]
+                        }
+                    }
+                }
             }
         },
+
+        
         
         "securitySchemes": {
             "bearerAuth": {
