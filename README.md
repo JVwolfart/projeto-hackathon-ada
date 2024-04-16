@@ -160,4 +160,6 @@ Acesse nossa mesa de planejamento no [Miro](https://miro.com/welcomeonboard/eGdn
     DB_PASSWORD="[rPbBXk=d+9A"
     DB_DATABASE="u953352787_adahack"
     ````
-  5. Para entender as rotas, basta fazer download das collections do Insomnia que está raiz do projeto.
+  5. Para entender as rotas, basta fazer download das collections do Insomnia que está raiz do projeto, ou acessando a rota com a documentação do Swagger no link abaixo.
+
+  http://localhost:3000/api-docs
