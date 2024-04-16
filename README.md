@@ -118,7 +118,6 @@ Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Emp
         <p> Raphael<br/>S</p>
       </a>
     </td>
-    <td>
   </tr>
 </table>
 
