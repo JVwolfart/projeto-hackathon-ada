@@ -21,15 +21,16 @@ class DashboardController {
 
     async donuts(req, res, next){
         const queryParams = []
+        const {consulta} = req.params;
         for (const key in req.query) {
             if (req.query.hasOwnProperty(key)) {
                 queryParams.push(`${key}='${req.query[key]}'`)
             }
         }
         try {
-            const candidatos = await ListarDonutsCandidatosService.execute(queryParams);
-            console.log(queryParams)
-            console.log(candidatos)
+            const candidatos = await ListarDonutsCandidatosService.execute(consulta);
+            //console.log(queryParams)
+            //console.log(candidatos)
             res.status(200).send(candidatos)
         } catch (error) {
             next(error);

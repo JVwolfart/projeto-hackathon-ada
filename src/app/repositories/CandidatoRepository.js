@@ -88,15 +88,50 @@ class CandidatoRepository {
     }
 
 
-    async listar_donuts() {
+    async listar_donuts(consulta) {
         const fields = ['etnia', 'identidade_genero', 'orientacao_sexual'];
-        const promises = fields.map(field => new Promise(function(resolve, reject){
-                sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato WHERE data_contratacao is NOT NULL GROUP BY ${field}`)
-                .then(result => resolve(result[0]))
-                .catch(error => reject(error))
-            })
-        )
-        return await Promise.all(promises)
+        let promises;
+        let tipoConsulta;
+        switch (consulta) {
+            case "funcionarios":
+                promises = fields.map(field => new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato WHERE data_contratacao is NOT NULL GROUP BY ${field} ORDER BY quantidade DESC`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                }))
+                tipoConsulta = "Ranking da diversidade dos funcionários (somente funcionários em atividade) por etnia, identidade de gênero e orientação sexual";
+                break;
+            case "candidatos":
+                promises = fields.map(field => new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato WHERE data_contratacao is NULL GROUP BY ${field} ORDER BY quantidade DESC`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                }))
+                tipoConsulta = "Ranking da diversidade dos candidatos (somente os candidatos ainda não contratados) por etnia, identidade de gênero e orientação sexual";
+                break;
+            case "desligados":
+                promises = fields.map(field => new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato WHERE data_demissao is NOT NULL GROUP BY ${field} ORDER BY quantidade DESC`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                }))
+                tipoConsulta = "Ranking da diversidade dos funcionários desligados (somente os funcionários que já passaram pela empresa e foram desligados) por etnia, identidade de gênero e orientação sexual";
+                break;
+            default:
+                promises = fields.map(field => new Promise(function(resolve, reject){
+                    sequelize.query(`SELECT ${field}, COUNT(*) AS quantidade, CAST(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER() AS DECIMAL(5, 2)) AS percentual FROM Candidato GROUP BY ${field} ORDER BY quantidade DESC`)
+                    .then(result => resolve(result[0]))
+                    .catch(error => reject(error))
+                }))
+                tipoConsulta = "Ranking da diversidade do banco de dados em geral (incluindo funcionários e candidatos) por etnia, identidade de gênero e orientação sexual";
+                break;
+        }
+        const resultado = await Promise.all(promises);
+        let totalRegistros = 0;
+        for (let i = 0; i < resultado[0].length; i++) {
+            totalRegistros += resultado[0][i].quantidade;
+        }
+        return {totalRegistros, tipoConsulta, resultado}
     }      
 
     async listar_candidatos_pcd(pagina, funcionario=null){

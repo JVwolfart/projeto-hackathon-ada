@@ -19,19 +19,17 @@ const requestLimiter = rateLimit({
 
 
 routesCandidato.post("/candidato", requestLimiter, candidatoController.cadastrar);
-routesCandidato.get("/lista_pessoas", autenticacaoMiddleware.execute, middlewareNivel_2.execute, candidatoController.listar);
-routesCandidato.get("/candidato/pcd", autenticacaoMiddleware.execute, middlewareNivel_1.execute, candidatoController.listar_candidatos_pcd);
+routesCandidato.get("/lista_pessoas", autenticacaoMiddleware.execute, middlewareNivel_2.execute, requestLimiter, candidatoController.listar);
+routesCandidato.get("/candidato/pcd", autenticacaoMiddleware.execute, middlewareNivel_1.execute, requestLimiter, candidatoController.listar_candidatos_pcd);
 routesCandidato.post("/login", requestLimiter, candidatoController.login)
 //routesCandidato.get("/teste_login", requestLimiter, middlewareNivel_1.execute, dadosUserController.dados_user);
 routesCandidato.get("/whoami", autenticacaoMiddleware.execute, requestLimiter, dadosUserController.dados_user);
 
 routesCandidato.post("/deficiencia_candidato", autenticacaoMiddleware.execute, requestLimiter, deficienciaCandidatoController.cadastrar);
-routesCandidato.get("/deficiencia_candidato/:id_candidato", autenticacaoMiddleware.execute, middlewareNivel_2.execute, deficienciaCandidatoController.buscar_por_candidato);
+routesCandidato.get("/deficiencia_candidato/:id_candidato", autenticacaoMiddleware.execute, middlewareNivel_2.execute, requestLimiter, deficienciaCandidatoController.buscar_por_candidato);
 
 routesCandidato.put("/contratar/:id_candidato", autenticacaoMiddleware.execute, requestLimiter, middlewareNivel_4.execute, candidatoController.contratar)
 routesCandidato.put("/desligar/:id_candidato", autenticacaoMiddleware.execute, requestLimiter, middlewareNivel_4.execute, candidatoController.desligar)
-
-routesCandidato.get("/deficiencia_candidato/:id_candidato", deficienciaCandidatoController.buscar_por_candidato);
 
 routesCandidato.use(errorHandlerMiddleware.execute)
 module.exports = routesCandidato;

@@ -535,6 +535,50 @@
                     }
                 }
             }
+        },
+
+        "/dashboard/report/{consulta}": {
+            "get": {
+                "summary": "Listagem da diversidade",
+                "description": "Esta rota fornece ao usuário logado com pelo menos nível de acesso 4, a possibilidade de realizar a consulta ao sistema das diversidades das pessoas. Tendo a possibilidade de escolher se quer a consulta apenas dos funcionários em atividade, apenas dos candidatos não contratados ainda, apenas dos candidatos que já foram desligados, ou então de todas as pessoas do banco de dados",
+                "tags": ["Dashboard"],
+                "security": [{"bearerAuth": []}],
+                "parameters": [
+                    {
+                        "name":"consulta",
+                        "in":"path",
+                        "description":"Informe o parâmetro da consulta. Opções: todos, funcionarios, candidatos, desligados",
+                        "required":true,
+                        "type":"string",
+                        "default": "funcionarios"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Diversidade"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Token não informado"
+                    },
+                    "401": {
+                        "description": "Token inválido"
+                    },
+                    "403": {
+                        "description": "Este usuário não tem permissão para acessar essa rota (mínimo nível de acesso 4)"
+                    },
+                    "500": {
+                        "description": "Ocorreu um erro interno no servidor"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -700,6 +744,77 @@
                         "items": {
                             "type": "object",
                             "$ref": "#/components/schemas/Candidato"
+                        }
+                    }
+                }
+            },
+
+
+            "Etnia": {
+                "type": "object",
+                "properties": {
+                    "etnia": {
+                        "type": "string"
+                    },
+                    "quantidade": {
+                        "type": "number"
+                    },
+                    "percentual": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "IdentidadeGenero": {
+                "type": "object",
+                "properties": {
+                    "identidade_genero": {
+                        "type": "string"
+                    },
+                    "quantidade": {
+                        "type": "number"
+                    },
+                    "percentual": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "OrientacaoSexual": {
+                "type": "object",
+                "properties": {
+                    "orientacao_sexual": {
+                        "type": "string"
+                    },
+                    "quantidade": {
+                        "type": "number"
+                    },
+                    "percentual": {
+                        "type": "string"
+                    }
+                }
+            },
+
+            "Diversidade": {
+                "type": "object",
+                "properties": {
+                    "totalRegistros": {
+                        "type": "number"
+                    },
+                    "tipoConsulta": {
+                        "type": "string"
+                    },
+                    "resultado": {
+                        "type": "array",
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "oneOf": [
+                                    {"$ref": "#/components/schemas/Etnia"},
+                                    {"$ref": "#/components/schemas/IdentidadeGenero"},
+                                    {"$ref": "#/components/schemas/OrientacaoSexual"}
+                                ]    
+                            }
                         }
                     }
                 }
