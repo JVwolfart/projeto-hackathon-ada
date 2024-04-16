@@ -91,31 +91,32 @@ Repositório no github oficial de envio [clique aqui](https://github.com/Ada-Emp
   <tr align="center">
     <td>
       <a href="https://github.com/IgorALopes">
-        <img src="https://avatars.githubusercontent.com/u/96532725?s=400&u=ad438293e9c2e050a10946bf1ebb9cf57f233ece&v=4" width=100 />
+        <img src="https://avatars.githubusercontent.com/u/96532725" width=100 />
         <p> Igor<br/>Lopes</p>
       </a>
     </td>
-     <td>
+    <td>
       <a href="https://github.com/LeidyOlinto">
-        <img src="https://avatars.githubusercontent.com/u/100310458?v=4" width=100 />
+        <img src="https://avatars.githubusercontent.com/u/100310458" width=100 />
         <p>Leidy <br/>Olinto</p>
       </a>
     </td>
     <td>
       <a href="https://github.com/jVwolfart/">
-        <img src="https://avatars.githubusercontent.com/u/87876254?v=4" width=100 />
+        <img src="https://avatars.githubusercontent.com/u/87876254" width=100 />
         <p>João Vitor<br/>Wolfart</p>
       </a>
     </td>
+     <td>
       <a href="https://github.com/mmmarcelom">
-        <img src="https://avatars.githubusercontent.com/u/52570539?v=4" width=100 />
+        <img src="https://avatars.githubusercontent.com/u/52570539" width=100 />
         <p>Marcelo <br/>Mesquita</p>
       </a>
     </td>
      <td>
-      <a href="">
-        <img src="" width=100 />
-        <p> Raphael<br/>S</p>
+      <a href="https://github.com/rapdos-s">
+        <img src="https://avatars.githubusercontent.com/u/86138022" width=100 />
+        <p> Raphael<br/>dos Santos Esteves</p>
       </a>
     </td>
   </tr>
