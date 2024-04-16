@@ -1,0 +1,19 @@
+services:
+  corp_solutions:
+    image: corp_solutions
+    # restart: unless-stopped
+    build:
+      context: ./corp_solutions
+      dockerfile: Dockerfile
+    env_file:
+      - ./corp_solutions/.env
+    networks:
+      - corp_solutions
+    volumes:
+      - ./corp_solutions/volume:/app/data
+    ports:
+      - "3000:3000"
+
+networks:
+  corp_solutions:
+    driver: bridge

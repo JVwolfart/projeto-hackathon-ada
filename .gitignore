@@ -1,4 +1,11 @@
-node_modules/
+# Dependency directories
+**/node_modules/
+
+# Environment variables
+**/.env
+
+# Volume files
+corp_solutions/volume/*
+
+# Others
 *-lock.json
-.env
-db.sqlite
