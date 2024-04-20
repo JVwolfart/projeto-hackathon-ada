@@ -9,9 +9,12 @@ const swaggerUI = require("swagger-ui-express");
 const swaggerDocs = require("../swagger.json");
 
 const app = express();
+
+const HOSTS = JSON.parse(process.env.HOSTS_CORS);
+console.log(HOSTS);
 app.use(express.json());
 app.use(cors({
-    origin: ["http://127.0.0.1:3000", "http://localhost:3000"]
+    origin: HOSTS
 }))
 app.use(morgan("tiny"));
 app.use(helmet());
