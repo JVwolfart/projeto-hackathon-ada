@@ -166,7 +166,7 @@ class CandidatoRepository {
         switch (consulta) {
             case "funcionarios":
                 promises = new Promise(function(resolve, reject){
-                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
                     .then(result => resolve(result[0]))
                     .catch(error => reject(error))
                 })
@@ -174,7 +174,7 @@ class CandidatoRepository {
                 break;
             case "candidatos":
                 promises = new Promise(function(resolve, reject){
-                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_contratacao IS NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_contratacao IS NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
                     .then(result => resolve(result[0]))
                     .catch(error => reject(error))
                 })
@@ -182,7 +182,7 @@ class CandidatoRepository {
                 break;
             case "desligados":
                 promises = new Promise(function(resolve, reject){
-                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_demissao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true AND data_demissao IS NOT NULL)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato WHERE pcd=true AND data_demissao IS NOT NULL GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
                     .then(result => resolve(result[0]))
                     .catch(error => reject(error))
                 })
@@ -190,7 +190,7 @@ class CandidatoRepository {
                 break;
             default:
                 promises = new Promise(function(resolve, reject){
-                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_deficientes DESC;`)
+                    sequelize.query(`SELECT tipo_deficiencia, (SELECT COUNT(*) FROM Candidato WHERE pcd=true) AS total_de_pessoas_deficientes, COUNT(tipo_deficiencia) AS total_de_pessoas_com_essa_deficiencia, (COUNT(tipo_deficiencia))/(SELECT COUNT(*) FROM Candidato WHERE pcd=true)*100 AS percentual_sobre_total FROM DeficienciaCandidato LEFT JOIN Candidato ON Candidato.id = DeficienciaCandidato.id_candidato GROUP BY tipo_deficiencia ORDER BY total_de_pessoas_com_essa_deficiencia DESC;`)
                     .then(result => resolve(result[0]))
                     .catch(error => reject(error))
                 })

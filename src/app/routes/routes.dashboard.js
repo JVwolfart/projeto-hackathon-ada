@@ -3,8 +3,7 @@ const errorHandlerMiddleware = require("../middlewares/ErrorHandlerMiddleware");
 const rateLimit = require("express-rate-limit");
 const dashboardController = require("../controllers/DashboardController");
 const autenticacaoMiddleware = require("../middlewares/AutenticacaoMiddleware");
-const middlewareNivel_2 = require("../middlewares/MiddlewareNivel_2");
-const middlewareNivel_4 = require("../middlewares/MiddlewareNivel_4");
+const {middlewareNivel_1, middlewareNivel_2, middlewareNivel_3, middlewareNivel_4, middlewareNivel_5} = require("../middlewares/MiddlewareNivel");
 
 const requestLimiter = rateLimit({
     windowMs: 1 * 60 * 1000,

@@ -3,9 +3,7 @@ const candidatoController = require("../controllers/CandidatoController");
 const errorHandlerMiddleware = require("../middlewares/ErrorHandlerMiddleware");
 const deficienciaCandidatoController = require("../controllers/DeficienciaCandidatoController");
 const rateLimit = require("express-rate-limit");
-const middlewareNivel_1 = require("../middlewares/MiddlewareNivel_1");
-const middlewareNivel_2 = require("../middlewares/MiddlewareNivel_2");
-const middlewareNivel_4 = require("../middlewares/MiddlewareNivel_4");
+const {middlewareNivel_1, middlewareNivel_2, middlewareNivel_3, middlewareNivel_4, middlewareNivel_5} = require("../middlewares/MiddlewareNivel");
 const dadosUserController = require("../controllers/DadosUserController");
 const autenticacaoMiddleware = require("../middlewares/AutenticacaoMiddleware");
 

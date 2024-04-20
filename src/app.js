@@ -25,3 +25,5 @@ const PORT = parseInt(process.env.PORT)
 app.listen(PORT, () => {
     console.log(`Servidor iniciado na porta ${PORT}`);
 })
+
+module.exports = app;
